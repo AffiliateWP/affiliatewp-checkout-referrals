@@ -24,7 +24,7 @@ Currently supported integrations:
 *Features:*
 
 1. Shows a select menu at checkout (but only when a referral link is not used) that allows a customer to select an affiliate that their purchase will be credited to.
-1. Adds a payment note to the EDD receipt showing the referral ID, amount recorded for affiliate, and affiliate's name
+1. Adds a payment note to the order screen showing the referral ID, amount recorded for affiliate, and affiliate's name
 1. Allows a customer to search through the affiliate list at checkout
 1. Optionally require that the customer select an affiliate at checkout
 1. Select how the Affiliate's should be displayed in the select menu
