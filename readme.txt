@@ -29,6 +29,10 @@ Currently supported integrations:
 1. Select how the Affiliate's should be displayed in the select menu
 1. Select what text is shown above the select menu at checkout
 
+**What is AffiliateWP?**
+
+[AffiliateWP](http://affiliatewp.com/ "AffiliateWP") provides a complete affiliate management system for your WordPress website that seamlessly integrates with all major WordPress e-commerce and membership platforms. It aims to provide everything you need in a simple, clean, easy to use system that you will love to use.
+
 == Installation ==
 
 1. Unpack the entire contents of this plugin zip file into your `wp-content/plugins/` folder locally
