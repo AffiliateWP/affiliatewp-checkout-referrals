@@ -58,7 +58,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	}
 
 	/**
-	 * Completes a referal. Used when orders are marked as completed
+	 * Completes a referral. Used when orders are marked as completed
 	 *
 	 * @access  public
 	 * @since   1.0
