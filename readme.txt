@@ -3,7 +3,7 @@ Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, referrals, easy digital downloads, digital downloads, woocommerce, woo
 Requires at least: 3.3
 Tested up to: 4.1
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ OR you can just install it with WordPress by going to Plugins &rarr; Add New &ra
 Changed the default text that is shown at checkout
 
 == Changelog ==
+
+= 1.0.1 =
+* Tweak: Improved the way referrals are created
 
 = 1.0 =
 * Initial release
