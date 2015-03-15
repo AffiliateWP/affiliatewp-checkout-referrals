@@ -272,6 +272,6 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 	        return AffiliateWP_Checkout_Referrals::instance();
 	    }
 	}
-	add_action( 'plugins_loaded', 'affiliatewp_checkout_referrals', 9999 );
+	add_action( 'plugins_loaded', 'affiliatewp_checkout_referrals', 10 );
 
 }

@@ -22,7 +22,7 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 	}
 
 	/**
-	 * Set the affiliate ID
+	 * Set selected affiliate
 	 *
 	 * @return  void
 	 * @since  1.0.1

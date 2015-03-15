@@ -21,18 +21,13 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		// update order meta
 		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'update_order_meta' ) );
 
-		// create referral
-	//	add_action( 'woocommerce_order_status_completed', array( $this, 'mark_referral_complete' ), 10 );
-
-	
-
-		add_action( 'woocommerce_checkout_order_processed', array( $this, 'set_selected_affiliate' ), 10, 2 );
+		// set selected affiliate
+		add_action( 'woocommerce_checkout_order_processed', array( $this, 'set_selected_affiliate' ), 0, 2 );
 
 	}
 
-
 	/**
-	 * Set the affiliate ID
+	 * Set selected affiliate
 	 *
 	 * @return  void
 	 * @since  1.0.1
@@ -48,7 +43,6 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 
 	}
 
-
 	/**
 	 * Set the affiliate ID
 	 *
@@ -57,8 +51,6 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 	 */
 	public function set_affiliate_id( $affiliate_id ) {
 		$affiliate_id = isset( $_POST['affwp-checkout-referrals-affiliates'] ) ? affwp_get_affiliate_id( absint( $_POST['affwp-checkout-referrals-affiliates'] ) ) : '';
-		
-		var_dump( $affiliate_id ); wp_die();
 
 		return $affiliate_id;
 	}
@@ -158,75 +150,6 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 
 		return implode( ', ', $description );
 	}
-
-	/**
-	 * Increase affiliate's referral count on completed purchase
-	 *
-	 * @param int $payment_id Payment ID
-	 * @return  void
-	 * @since  1.0
-	 */
-	public function mark_referral_complete( $order_id = 0 ) {
-
-		// get WooCommerce order
-		$order = new WC_Order( $order_id );
-
-		// return if already tracking referral
-		if ( $this->already_tracking_referral() ) {
-			return;
-		}
-
-		// get user ID
-		$user_id = get_post_meta( $order_id, '_affwp_checkout_referrals_user_id', true );
-
-		if ( ! is_numeric( $user_id ) ) {
-			return;
-		}
-
-		// get affiliate ID
-		$affiliate    = affiliate_wp()->affiliates->get_by( 'user_id', $user_id );
-		$affiliate_id = $affiliate->affiliate_id;
-
-		$customer_email  = $order->billing_email;
-		$affiliate_email = affwp_get_affiliate_email( $affiliate_id );
-
-		// Customers cannot refer themselves
-		if ( $affiliate_email == $customer_email ) {
-			return; 
-		}
-
-		// get the order total
-		$price = $order->get_total();
-
-		// get the order description
-		$description = $this->referral_description( $order_id );
-
-		// calculate the referral amount
-		$amount = affwp_calc_referral_amount( $price, $affiliate_id );
-
-		$args = array(
-			'amount'       => $amount,
-			'reference'    => $order_id,
-			'description'  => $description,
-			'affiliate_id' => $affiliate_id,
-			'context'      => $this->context,
-			'status'       => 'unpaid'
-		);
-
-		$referral_id = $this->complete_referral( $args );
-
-		// add payment note
-		if ( $referral_id ) {
-
-			$amount = affwp_currency_filter( affwp_format_amount( $amount ) );
-			$name   = affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
-
-			$order->add_order_note( sprintf( __( 'Referral #%d for %s recorded for %s', 'affiliatewp-checkout-referrals' ), $referral_id, $amount, $name ) );
-
-		}
-
-	}
-
 
 }
 new AffiliateWP_Checkout_Referrals_WooCommerce;
