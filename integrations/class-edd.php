@@ -15,12 +15,42 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 		// list affiliates at checkout for EDD
 		add_action( 'edd_purchase_form_before_submit', array( $this, 'affiliate_dropdown' ) );
 
-		// create referral
-		add_action( 'edd_complete_purchase', array( $this, 'mark_referral_complete' ) );
-
 		// check the affiliate field
 		add_action( 'edd_checkout_error_checks', array( $this, 'check_affiliate_field' ), 10, 2 );
+		add_action( 'edd_insert_payment', array( $this, 'set_selected_affiliate' ), 1, 2 );
 
+	}
+
+	/**
+	 * Set the affiliate ID
+	 *
+	 * @return  void
+	 * @since  1.0.1
+	 */
+	public function set_selected_affiliate( $payment_id = 0, $payment_data = array() ) {
+
+		if ( $this->already_tracking_referral() ) {
+			return;
+		}
+
+		add_filter( 'affwp_was_referred', '__return_true' );
+		add_filter( 'affwp_get_referring_affiliate_id', array( $this, 'set_affiliate_id' ) );
+
+	}
+
+
+	/**
+	 * Set the affiliate ID
+	 *
+	 * @return  void
+	 * @since  1.0.1
+	 */
+	public function set_affiliate_id( $affiliate_id ) {
+		$affiliate_id = isset( $_POST['edd_affiliate'] ) ? affwp_get_affiliate_id( absint( $_POST['edd_affiliate'] ) ) : '';
+		
+	//	var_dump( $affiliate_id ); wp_die();
+
+		return $affiliate_id;
 	}
 
 	/**
@@ -32,7 +62,7 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 	public function affiliate_dropdown() {
 
 		if ( $this->already_tracking_referral() ) {
-			return;
+		 	return;
 		}
 
 		// get affiliate list
@@ -41,7 +71,7 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 		$description = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
 		$display     = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
 
-	?>
+		?>
 
 		<p>
 			<?php if ( $description ) : ?>
@@ -59,7 +89,8 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 			</select>
 		</p>
 
-	<?php }
+	<?php 
+	}
 
 	/**
 	 * Referral description
@@ -78,58 +109,6 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 		}
 
 		return $description;
-	}
-
-	/**
-	 * Increase affiliate's referral count on completed purchase
-	 *
-	 * @param int $payment_id Payment ID
-	 * @return  void
-	 * @since  1.0
-	 */
-	public function mark_referral_complete( $payment_id ) {
-
-		// return if already tracking referral
-		if ( $this->already_tracking_referral() ) {
-			return;
-		}
-
-		$payment_meta     = edd_get_payment_meta( $payment_id );
-		$purchase_session = edd_get_purchase_session();
-		$price            = $purchase_session['price'];
-		$user_id          = isset( $purchase_session['post_data']['edd_affiliate'] ) ? $purchase_session['post_data']['edd_affiliate'] : null;
-
-		if ( ! is_numeric( $user_id ) ) {
-			return;
-		}
-
-		// get affiliate ID
-		$affiliate    = affiliate_wp()->affiliates->get_by( 'user_id', $user_id );
-		$affiliate_id = $affiliate->affiliate_id;
-
-		// calculate referral amount
-		$amount = affwp_calc_referral_amount( $price, $affiliate_id );
-
-		$description = $this->referral_description( $payment_id );
-
-		$customer_email  = edd_get_payment_user_email( $payment_id );
-		$affiliate_email = affwp_get_affiliate_email( $affiliate_id );
-
-		if ( $affiliate_email == $customer_email ) {
-			return; // Customers cannot refer themselves
-		}
-
-		$args = array(
-			'amount'       => $amount,
-			'reference'    => $payment_id,
-			'description'  => $description,
-			'affiliate_id' => $affiliate_id,
-			'context'      => $this->context,
-			'status'       => 'unpaid'
-		);
-
-		$referral_id = $this->complete_referral( $args );
-
 	}
 
 

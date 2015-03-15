@@ -1,13 +1,13 @@
 === AffiliateWP Checkout Referrals ===
 Contributors: sumobi, mordauk
-Tags: AffiliateWP, affiliate, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, referrals, easy digital downloads, digital downloads, woocommerce, woo,
+Tags: AffiliateWP, affiliate, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, referrals, easy digital downloads, digital downloads, woocommerce, woo
 Requires at least: 3.3
 Tested up to: 4.1
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Allows a customer to award a referral to a specific affiliate at checkout
+Allow customers to select who should receive a commission at checkout
 
 == Description ==
 
@@ -15,16 +15,15 @@ Allows a customer to award a referral to a specific affiliate at checkout
 
 AffiliateWP Checkout Referrals allows a customer to select an affiliate at checkout to receive commission from their purchase. It's especially useful for sites whose affiliates are NPO (Nonprofit organizations). A customer can select the NPO from checkout, and that NPO will receive a commission on the sale. If an affiliate link is already being tracked (Eg /?ref=123, the affiliate list is not shown at checkout.
 
-Currently supported integrations:
+**Currently supported integrations**
 
 1. Easy Digital Downloads
 2. WooCommerce
 
-*Features:*
+**Features:**
 
 1. Shows a select menu at checkout (but only when a referral link is not used) that allows a customer to select an affiliate that their purchase will be credited to.
 1. Adds a payment note to the order screen showing the referral ID, amount recorded for affiliate, and affiliate's name
-1. Allows a customer to search through the affiliate list at checkout
 1. Optionally require that the customer select an affiliate at checkout
 1. Select how the Affiliate's should be displayed in the select menu
 1. Select what text is shown above the select menu at checkout
@@ -41,12 +40,12 @@ Currently supported integrations:
 1. Activate this plugin
 1. Configure the options from Affiliates &rarr; Settings &rarr; Integrations
 
-OR you can just install it with WordPress by going to Plugins >> Add New >> and type this plugin's name
+OR you can just install it with WordPress by going to Plugins &rarr; Add New &rarr; and type this plugin's name
 
 == Screenshots ==
 
-1. The customer can award a referral to a specific affiliate at checkout
-1. The plugin's settings
+1. The add-ons's settings from Affiliates &rarr; Settings &rarr; Integrations
+1. The select menu at checkout that a customer can use to award a commission to an affiliate
 
 == Upgrade Notice ==
 Changed the default text that is shown at checkout

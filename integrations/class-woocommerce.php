@@ -22,10 +22,46 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'update_order_meta' ) );
 
 		// create referral
-		add_action( 'woocommerce_order_status_completed', array( $this, 'mark_referral_complete' ), 10 );
+	//	add_action( 'woocommerce_order_status_completed', array( $this, 'mark_referral_complete' ), 10 );
+
+	
+
+		add_action( 'woocommerce_checkout_order_processed', array( $this, 'set_selected_affiliate' ), 10, 2 );
 
 	}
 
+
+	/**
+	 * Set the affiliate ID
+	 *
+	 * @return  void
+	 * @since  1.0.1
+	 */
+	public function set_selected_affiliate( $order_id = 0, $posted ) {
+
+		if ( $this->already_tracking_referral() ) {
+			return;
+		}
+
+		add_filter( 'affwp_was_referred', '__return_true' );
+		add_filter( 'affwp_get_referring_affiliate_id', array( $this, 'set_affiliate_id' ) );
+
+	}
+
+
+	/**
+	 * Set the affiliate ID
+	 *
+	 * @return  void
+	 * @since  1.0.1
+	 */
+	public function set_affiliate_id( $affiliate_id ) {
+		$affiliate_id = isset( $_POST['affwp-checkout-referrals-affiliates'] ) ? affwp_get_affiliate_id( absint( $_POST['affwp-checkout-referrals-affiliates'] ) ) : '';
+		
+		var_dump( $affiliate_id ); wp_die();
+
+		return $affiliate_id;
+	}
 
 	/**
 	 * Check affiliate select menu
@@ -53,7 +89,7 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 	 * @since  1.0
 	 */
 	public function affiliate_dropdown( $checkout ) {
- 		
+		
  		// return is affiliate ID is being tracked
  		if ( $this->already_tracking_referral() ) {
 			return;

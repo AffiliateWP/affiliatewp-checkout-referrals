@@ -5,7 +5,7 @@
  * Description: Allows a customer to award a referral to a specific affiliate at checkout
  * Author: Pippin Williamson and Andrew Munro
  * Author URI: http://affiliatewp.com
- * Version: 1.0
+ * Version: 1.0.1
  * Text Domain: affiliatewp-checkout-referrals
  * Domain Path: languages
  *
@@ -92,7 +92,7 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 
 				self::$plugin_dir = plugin_dir_path( __FILE__ );
 				self::$plugin_url = plugin_dir_url( __FILE__ );
-				self::$version    = '1.0';
+				self::$version    = '1.0.1';
 
 				self::$instance->load_textdomain();
 				self::$instance->hooks();
@@ -171,7 +171,7 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 		 * @return void
 		 */
 		private function includes() {
-
+	
 			if ( is_admin() ) {
 				require_once self::$plugin_dir . 'includes/class-admin.php';
 			}
@@ -272,6 +272,6 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 	        return AffiliateWP_Checkout_Referrals::instance();
 	    }
 	}
-	add_action( 'plugins_loaded', 'affiliatewp_checkout_referrals', 100 );
+	add_action( 'plugins_loaded', 'affiliatewp_checkout_referrals', 9999 );
 
 }
