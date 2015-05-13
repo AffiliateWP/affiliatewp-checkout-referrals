@@ -50,9 +50,14 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 	 * @since  1.0.1
 	 */
 	public function set_affiliate_id( $affiliate_id ) {
-		$affiliate_id = isset( $_POST['affwp-checkout-referrals-affiliates'] ) ? affwp_get_affiliate_id( absint( $_POST['affwp-checkout-referrals-affiliates'] ) ) : '';
+
+		// this will override a tracked affiliate coupon
+		if ( isset( $_POST['affwp-checkout-referrals-affiliates'] ) && $_POST['affwp-checkout-referrals-affiliates'] ) {
+			$affiliate_id = affwp_get_affiliate_id( absint( $_POST['affwp-checkout-referrals-affiliates'] ) );
+		}
 
 		return $affiliate_id;
+
 	}
 
 	/**

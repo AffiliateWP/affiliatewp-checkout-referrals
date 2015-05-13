@@ -46,9 +46,11 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 	 * @since  1.0.1
 	 */
 	public function set_affiliate_id( $affiliate_id ) {
-		$affiliate_id = isset( $_POST['edd_affiliate'] ) ? affwp_get_affiliate_id( absint( $_POST['edd_affiliate'] ) ) : '';
-		
-	//	var_dump( $affiliate_id ); wp_die();
+
+		// this will override a tracked affiliate coupon
+		if ( isset( $_POST['edd_affiliate'] ) && $_POST['edd_affiliate'] ) {
+			$affiliate_id = affwp_get_affiliate_id( absint( $_POST['edd_affiliate'] ) );
+		}
 
 		return $affiliate_id;
 	}

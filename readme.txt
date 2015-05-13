@@ -1,9 +1,9 @@
 === AffiliateWP Checkout Referrals ===
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, referrals, easy digital downloads, digital downloads, woocommerce, woo
-Requires at least: 3.3
-Tested up to: 4.1
-Stable tag: 1.0.1
+Requires at least: 3.9
+Tested up to: 4.2
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,9 +48,12 @@ OR you can just install it with WordPress by going to Plugins &rarr; Add New &ra
 1. The select menu at checkout that a customer can use to award a commission to an affiliate
 
 == Upgrade Notice ==
-Changed the default text that is shown at checkout
+Fix: Tracked affiliate coupons were not working when checkout referrals was active
 
 == Changelog ==
+
+= 1.0.2 =
+* Fix: Tracked affiliate coupons were not working when checkout referrals was active
 
 = 1.0.1 =
 * Tweak: Improved the way referrals are created
