@@ -24,7 +24,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 
 	/**
 	 * Check to see if user is already tracking a referral link in their cookies
-	 * 
+	 *
 	 * @return boolean true if tracking affiliate, false otherwise
 	 * @since  1.0
 	 */
@@ -39,10 +39,10 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	public function get_affiliates() {
 
 		// get all active affiliates
-		$affiliates = affiliate_wp()->affiliates->get_affiliates( 
-			array( 
-				'status' => 'active', 
-				'number' => -1 
+		$affiliates = affiliate_wp()->affiliates->get_affiliates(
+			array(
+				'status' => 'active',
+				'number' => -1
 			)
 		);
 
@@ -58,32 +58,14 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	}
 
 	/**
-	 * Completes a referral. Used when orders are marked as completed
-	 *
-	 * @access  public
-	 * @since   1.0
-	 * @param   $reference The reference column for the referral to complete per the current context
-	 * @return  bool
+	 * Get affiliate selection
+	 * @since 1.0.3
 	 */
-	public function complete_referral( $args = array() ) {
-		
-		$referral_id = affiliate_wp()->referrals->add( 
-			array(
-				'amount'       => $args['amount'],
-				'reference'    => $args['reference'],
-				'description'  => $args['description'],
-				'affiliate_id' => $args['affiliate_id'],
-				'context'      => $this->context,
-				'status'       => $args['status']   
-			) 
-		);
+	public function get_affiliate_selection() {
 
-		if ( $referral_id ) {
-			return $referral_id;
-		}
+		$affiliate_selection = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_selection' );
 
-		return false;
-		
+		return $affiliate_selection;
 	}
 
 }

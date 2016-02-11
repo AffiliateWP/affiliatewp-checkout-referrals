@@ -11,7 +11,7 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 	public function init() {
 
 		$this->context = 'edd';
-		
+
 		// list affiliates at checkout for EDD
 		add_action( 'edd_purchase_form_before_submit', array( $this, 'affiliate_dropdown' ) );
 
@@ -38,18 +38,49 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 
 	}
 
-
 	/**
 	 * Set the affiliate ID
+	 * Overrides a tracked affiliate coupon
 	 *
 	 * @return  void
 	 * @since  1.0.1
 	 */
 	public function set_affiliate_id( $affiliate_id ) {
 
-		// this will override a tracked affiliate coupon
-		if ( isset( $_POST['edd_affiliate'] ) && $_POST['edd_affiliate'] ) {
-			$affiliate_id = affwp_get_affiliate_id( absint( $_POST['edd_affiliate'] ) );
+
+
+		$affiliate_selection = $this->get_affiliate_selection();
+
+		// Input field. Accepts either an affiliate ID or username
+		if ( 'input' === $affiliate_selection ) {
+
+			if ( isset( $_POST['edd_affiliate'] ) && $_POST['edd_affiliate'] ) {
+
+				if ( absint( $_POST['edd_affiliate'] ) ) {
+
+					// affiliate ID
+					$affiliate_id = absint( $_POST['edd_affiliate'] );
+
+				} elseif ( ! is_numeric( $affiliate_id ) ) {
+
+					// get affiliate ID from username
+					$user = get_user_by( 'login', sanitize_text_field( urldecode( $_POST['edd_affiliate'] ) ) );
+
+					if ( $user ) {
+						$affiliate_id = affwp_get_affiliate_id( $user->ID );
+					}
+
+				}
+
+			}
+
+		} else {
+
+			// select menu
+			if ( isset( $_POST['edd_affiliate'] ) && $_POST['edd_affiliate'] ) {
+				$affiliate_id = affwp_get_affiliate_id( absint( $_POST['edd_affiliate'] ) );
+			}
+
 		}
 
 		return $affiliate_id;
@@ -70,8 +101,9 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 		// get affiliate list
 		$affiliate_list = $this->get_affiliates();
 
-		$description = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
-		$display     = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
+		$description         = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
+		$display             = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
+		$affiliate_selection = $this->get_affiliate_selection();
 
 		?>
 
@@ -80,18 +112,26 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 			<label for="edd-affiliate"><?php echo esc_attr( $description ); ?></label>
 			<?php endif; ?>
 
-			<select id="edd-affiliate" name="edd_affiliate" class="edd-select">
-			
-			<option name=""><?php _e( 'Select', 'affiliatewp-checkout-referrals' ); ?></option>
-			<?php foreach ( $affiliate_list as $key => $affiliate ) : 
-				$user_info = get_userdata( $affiliate );
-			?>
-				<option value="<?php echo $affiliate; ?>"><?php echo $user_info->$display; ?></option>
-			<?php endforeach; ?>
-			</select>
+
+			<?php if ( 'input' === $affiliate_selection ) : ?>
+				<input type="text" id="edd-affiliate" name="edd_affiliate" />
+			<?php else : ?>
+
+				<select id="edd-affiliate" name="edd_affiliate" class="edd-select">
+
+				<option name=""><?php _e( 'Select', 'affiliatewp-checkout-referrals' ); ?></option>
+				<?php foreach ( $affiliate_list as $key => $affiliate ) :
+					$user_info = get_userdata( $affiliate );
+				?>
+					<option value="<?php echo $affiliate; ?>"><?php echo $user_info->$display; ?></option>
+				<?php endforeach; ?>
+				</select>
+
+			<?php endif; ?>
+
 		</p>
 
-	<?php 
+	<?php
 	}
 
 	/**
@@ -122,7 +162,7 @@ class AffiliateWP_Checkout_Referrals_EDD extends Affiliate_WP_Checkout_Referrals
 	 * @since  1.0
 	 */
 	public function check_affiliate_field( $valid_data, $post ) {
-		
+
 		if ( $this->already_tracking_referral() ) {
 			return;
 		}

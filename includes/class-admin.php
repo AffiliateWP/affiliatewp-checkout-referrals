@@ -1,7 +1,7 @@
 <?php
 
 class AffiliateWP_Checkout_Referrals_Admin {
-	
+
 	public function __construct() {
 		// settings
 		add_filter( 'affwp_settings_integrations', array( $this, 'settings' ) );
@@ -14,7 +14,7 @@ class AffiliateWP_Checkout_Referrals_Admin {
 	 * @return boolean
 	 */
 	public function settings( $fields ) {
-		
+
 		$fields['checkout_referrals_header'] = array(
 			'name' => __( 'Checkout Referrals', 'affiliatewp-checkout-referrals' ),
 			'type' => 'header',
@@ -25,6 +25,16 @@ class AffiliateWP_Checkout_Referrals_Admin {
 			'desc' => '<p class="description">' . __( 'Enter the text that is shown with the affiliate select menu at checkout', 'affiliatewp-checkout-referrals' ) . '</p>',
 			'type' => 'text',
 			'std'  => __( 'Who should be awarded commission for this purchase?', 'affiliatewp-checkout-referrals' )
+		);
+
+		$fields['checkout_referrals_affiliate_selection'] = array(
+			'name' => __( 'Affiliate Selection Method', 'affiliatewp-checkout-referrals' ),
+			'desc' => __( 'Choose how the customer will select the affiliate to award commission to.', 'affiliatewp-checkout-referrals' ),
+			'type' => 'select',
+			'options' => array(
+				'select_menu' => __( 'Customer selects affiliate from list', 'affiliatewp-checkout-referrals'),
+				'input'       => __( 'Customer enters affiliate\'s ID or username', 'affiliatewp-checkout-referrals'),
+			)
 		);
 
 		$fields['checkout_referrals_require_affiliate'] = array(
