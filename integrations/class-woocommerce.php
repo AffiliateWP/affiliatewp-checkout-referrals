@@ -41,23 +41,6 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 	}
 
 	/**
-	 * Set the affiliate ID
-	 *
-	 * @return  void
-	 * @since  1.0.1
-	 */
-	public function set_affiliate_id( $affiliate_id ) {
-
-		// this will override a tracked affiliate coupon
-		if ( isset( $_POST['affwp-checkout-referrals-affiliates'] ) && $_POST['affwp-checkout-referrals-affiliates'] ) {
-			$affiliate_id = absint( $_POST['affwp-checkout-referrals-affiliates'] );
-		}
-
-		return $affiliate_id;
-
-	}
-
-	/**
 	 * Check affiliate select menu
 	 * @since 1.0
 	 */
@@ -68,8 +51,8 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		}
 
 		// Check if there's any errors
-		if ( $this->get_error( $_POST['affwp-checkout-referrals-affiliates'] ) ) {
-			wc_add_notice( $this->get_error( $_POST['affwp-checkout-referrals-affiliates'] ), 'error' );
+		if ( $this->get_error( $_POST[ $this->context . '_affiliate'] ) ) {
+			wc_add_notice( $this->get_error( $_POST[ $this->context . '_affiliate'] ), 'error' );
 		}
 
 	}
@@ -99,10 +82,10 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
 
 			<?php if ( $description ) : ?>
-			<label for="affwp-checkout-referrals-affiliates"><?php echo esc_attr( $description ) . $required; ?></label>
+			<label for="woocommerce-affiliate"><?php echo esc_attr( $description ) . $required; ?></label>
 			<?php endif; ?>
 
-			<input type="text" id="affwp-checkout-referrals-affiliates" name="affwp-checkout-referrals-affiliates" />
+			<input type="text" id="woocommerce-affiliate" name="woocommerce_affiliate" />
 
 		<?php else : // select menu
 
@@ -115,14 +98,14 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		 		$affiliates[ $affiliate_id ] = $user_info->$display;
 		 	}
 
-		    woocommerce_form_field( 'affwp-checkout-referrals-affiliates',
+		    woocommerce_form_field( 'woocommerce_affiliate',
 		    	array(
 			        'type'    => 'select',
 			        'class'   => array( 'form-row-wide' ),
 			        'label'   => $description . $required,
 			        'options' => $affiliates
 			    ),
-			    $checkout->get_value( 'affwp-checkout-referrals-affiliates' )
+			    $checkout->get_value( 'woocommerce_affiliate' )
 			);
 
 		}

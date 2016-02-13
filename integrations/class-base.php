@@ -58,6 +58,103 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	}
 
 	/**
+	 * Show affiliate select menu or input field
+	 *
+	 * @return  void
+	 * @since  1.0.3
+	 */
+	public function show_select_or_input() {
+
+		if ( $this->already_tracking_referral() ) {
+		 	return;
+		}
+
+		// get affiliate list
+		$affiliate_list = $this->get_affiliates();
+
+		$description  = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
+		$display      = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
+
+		?>
+
+		<p>
+			<?php if ( $description ) : ?>
+			<label for="<?php echo $this->context;?>-affiliate"><?php echo esc_attr( $description ); ?></label>
+			<?php endif; ?>
+
+			<?php if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
+
+				<input type="text" id="<?php echo $this->context; ?>-affiliate" name="<?php echo $this->context;?>_affiliate" />
+
+			<?php else : // select menu ?>
+
+				<select id="<?php echo $this->context;?>-affiliate" name="<?php echo $this->context;?>_affiliate" class="<?php echo $this->context;?>-select">
+
+				<option value="0"><?php _e( 'Select', 'affiliatewp-checkout-referrals' ); ?></option>
+				<?php foreach ( $affiliate_list as $affiliate_id => $user_id ) :
+					$user_info = get_userdata( $user_id );
+				?>
+					<option value="<?php echo $affiliate_id; ?>"><?php echo $user_info->$display; ?></option>
+				<?php endforeach; ?>
+				</select>
+
+			<?php endif; ?>
+
+		</p>
+
+	<?php
+	}
+
+	/**
+	 * Set the affiliate ID
+	 * This overrides a tracked affiliate coupon
+	 *
+	 * @return  void
+	 * @since  1.0.1
+	 */
+	public function set_affiliate_id( $affiliate_id ) {
+
+		$context          = $this->context;
+		$posted_affiliate = $_POST[ $context . '_affiliate'];
+
+		$affiliate_selection = $this->get_affiliate_selection();
+
+		// Input field. Accepts either an affiliate ID or username
+		if ( 'input' === $affiliate_selection ) {
+
+			if ( isset( $posted_affiliate ) && $posted_affiliate ) {
+
+				if ( absint( $posted_affiliate ) ) {
+
+					// affiliate ID
+					$affiliate_id = absint( $posted_affiliate );
+
+				} elseif ( ! is_numeric( $affiliate_id ) ) {
+
+					// get affiliate ID from username
+					$user = get_user_by( 'login', sanitize_text_field( urldecode( $posted_affiliate ) ) );
+
+					if ( $user ) {
+						$affiliate_id = affwp_get_affiliate_id( $user->ID );
+					}
+
+				}
+
+			}
+
+		} else {
+
+			// select menu
+			if ( isset( $posted_affiliate ) && $posted_affiliate ) {
+				$affiliate_id = absint( $posted_affiliate );
+			}
+
+		}
+
+		return $affiliate_id;
+	}
+
+	/**
 	 * Get affiliate selection
 	 * @since 1.0.3
 	 */
@@ -115,7 +212,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 		$affiliate_submitted = isset( $affiliate ) && $affiliate ? $affiliate : '';
 
 		$error = '';
-		
+
 		/**
 		 * Affiliate is required but not affiliate was selected/entered
 		 */

@@ -22,7 +22,7 @@ class AffiliateWP_Checkout_Referrals_Admin {
 
 		$fields['checkout_referrals_checkout_text'] = array(
 			'name' => __( 'Checkout Text', 'affiliatewp-checkout-referrals' ),
-			'desc' => '<p class="description">' . __( 'Enter the text that is shown with the affiliate select menu at checkout', 'affiliatewp-checkout-referrals' ) . '</p>',
+			'desc' => '<p class="description">' . __( 'Enter the field description to be displayed at checkout.', 'affiliatewp-checkout-referrals' ) . '</p>',
 			'type' => 'text',
 			'std'  => __( 'Who should be awarded commission for this purchase?', 'affiliatewp-checkout-referrals' )
 		);
