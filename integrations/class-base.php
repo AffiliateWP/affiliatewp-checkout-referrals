@@ -75,11 +75,24 @@ class Affiliate_WP_Checkout_Referrals_Base {
 		$description  = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
 		$display      = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
 
+		$required     = affiliate_wp()->settings->get( 'checkout_referrals_require_affiliate' );
+		$required_html = '';
+
+		if ( $required ) {
+			switch ( $this->context ) {
+				case 'edd':
+					$required_html = ' <span class="edd-required-indicator">*</span>';
+					break;
+			}
+		}
+
+		$required     = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
+
 		?>
 
 		<p>
 			<?php if ( $description ) : ?>
-			<label for="<?php echo $this->context;?>-affiliate"><?php echo esc_attr( $description ); ?></label>
+			<label for="<?php echo $this->context;?>-affiliate"><?php echo esc_attr( $description ); ?><?php echo $required_html; ?></label>
 			<?php endif; ?>
 
 			<?php if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
