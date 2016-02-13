@@ -11,15 +11,12 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 	public function init() {
 
 		$this->context = 'woocommerce';
-		
+
 		// list affiliates at checkout
-		add_action( 'woocommerce_after_order_notes', array( $this, 'affiliate_dropdown' ) );
+		add_action( 'woocommerce_after_order_notes', array( $this, 'affiliate_select_or_input' ) );
 
 		// make field required
 		add_action( 'woocommerce_checkout_process', array( $this, 'check_affiliate_field' ) );
-
-		// update order meta
-		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'update_order_meta' ) );
 
 		// set selected affiliate
 		add_action( 'woocommerce_checkout_order_processed', array( $this, 'set_selected_affiliate' ), 0, 2 );
@@ -53,7 +50,7 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 
 		// this will override a tracked affiliate coupon
 		if ( isset( $_POST['affwp-checkout-referrals-affiliates'] ) && $_POST['affwp-checkout-referrals-affiliates'] ) {
-			$affiliate_id = affwp_get_affiliate_id( absint( $_POST['affwp-checkout-referrals-affiliates'] ) );
+			$affiliate_id = absint( $_POST['affwp-checkout-referrals-affiliates'] );
 		}
 
 		return $affiliate_id;
@@ -70,23 +67,19 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 			return;
 		}
 
-		$require_affiliate = affiliate_wp()->settings->get( 'checkout_referrals_require_affiliate' );
-
-	  	// error message
-	    if ( ! ( isset( $_POST['affwp-checkout-referrals-affiliates'] ) && $_POST['affwp-checkout-referrals-affiliates'] ) && $require_affiliate ) {
-	        $message = apply_filters( 'affwp_checkout_referrals_require_affiliate_error', __( 'Please select an affiliate', 'affiliatewp-checkout-referrals' ) );
-
-	        wc_add_notice( $message, 'error' );
-	    }
+		// Check if there's any errors
+		if ( $this->get_error( $_POST['affwp-checkout-referrals-affiliates'] ) ) {
+			wc_add_notice( $this->get_error( $_POST['affwp-checkout-referrals-affiliates'] ), 'error' );
+		}
 
 	}
-	
+
 	/**
 	 * List affiliates
 	 * @since  1.0
 	 */
-	public function affiliate_dropdown( $checkout ) {
-		
+	public function affiliate_select_or_input( $checkout ) {
+
  		// return is affiliate ID is being tracked
  		if ( $this->already_tracking_referral() ) {
 			return;
@@ -97,46 +90,47 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 
 		$description = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
 		$display     = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
+
 		$required    = affiliate_wp()->settings->get( 'checkout_referrals_require_affiliate' );
+		$required    = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
 
 		$affiliates = array( 0 => 'Select' );
 
+		if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
+
+			<?php if ( $description ) : ?>
+			<label for="affwp-checkout-referrals-affiliates"><?php echo esc_attr( $description ) . $required; ?></label>
+			<?php endif; ?>
+
+			<input type="text" id="affwp-checkout-referrals-affiliates" name="affwp-checkout-referrals-affiliates" />
+
+		<?php else : // select menu
+
 		if ( $affiliate_list ) {
 
-			// now that we've got a list of affiliate IDs and their User IDs, but out a list
-		 	foreach ( $affiliate_list as $key => $affiliate ) {
-		 		$user_info = get_userdata( $affiliate );
+			// now that we've got a list of affiliate IDs and their User IDs, build out a list
+		 	foreach ( $affiliate_list as $affiliate_id => $user_id ) {
+		 		$user_info = get_userdata( $user_id );
 
-		 		$affiliates[ $affiliate ] = $user_info->$display;
+		 		$affiliates[ $affiliate_id ] = $user_info->$display;
 		 	}
-		 	
-		 	$required = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
 
-		    woocommerce_form_field( 'affwp-checkout-referrals-affiliates', 
+		    woocommerce_form_field( 'affwp-checkout-referrals-affiliates',
 		    	array(
 			        'type'    => 'select',
 			        'class'   => array( 'form-row-wide' ),
 			        'label'   => $description . $required,
 			        'options' => $affiliates
-			    ), 
+			    ),
 			    $checkout->get_value( 'affwp-checkout-referrals-affiliates' )
 			);
 
 		}
-	 	
-	 
+
+		endif;
+
 	}
 
-	/**
-	 * Update order meta
-	 * @since  1.0
-	 */		 
-	public function update_order_meta( $order_id ) {
-	    if ( ! empty( $_POST['affwp-checkout-referrals-affiliates'] ) ) {
-	        update_post_meta( $order_id, '_affwp_checkout_referrals_user_id', $_POST['affwp-checkout-referrals-affiliates'] );
-	    }
-	}
-	
 	/**
 	 * Referral description
 	 * @return string The referral's description
