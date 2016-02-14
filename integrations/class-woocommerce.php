@@ -36,7 +36,7 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		}
 
 		add_filter( 'affwp_was_referred', '__return_true' );
-		add_filter( 'affwp_get_referring_affiliate_id', array( $this, 'set_affiliate_id' ) );
+		add_filter( 'affwp_get_referring_affiliate_id', array( $this, 'set_affiliate_id' ), 10, 3 );
 
 	}
 
@@ -112,25 +112,6 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 
 		endif;
 
-	}
-
-	/**
-	 * Referral description
-	 * @return string The referral's description
-	 */
-	public function referral_description( $order_id = 0 ) {
-		// get order
-		$order = new WC_Order( $order_id );
-
-		$description = array();
-
-		$items = $order->get_items();
-
-		foreach ( $items as $key => $item ) {
-			$description[] = $item['name'];
-		}
-
-		return implode( ', ', $description );
 	}
 
 }
