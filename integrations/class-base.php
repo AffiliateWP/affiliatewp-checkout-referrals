@@ -4,11 +4,6 @@ class Affiliate_WP_Checkout_Referrals_Base {
 
 	public $context;
 
-	/**
-	 * Plugin Title
-	 */
-	public $title = 'AffiliateWP Checkout Referrals';
-
 	public function __construct() {
 		$this->init();
 	}
@@ -86,14 +81,17 @@ class Affiliate_WP_Checkout_Referrals_Base {
 			}
 		}
 
-		$required     = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
+		$required = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
 
 		?>
 
+		<fieldset class="<?php echo $this->context; ?>-affiliate-fieldset">
 		<p>
 			<?php if ( $description ) : ?>
 			<label for="<?php echo $this->context;?>-affiliate"><?php echo esc_attr( $description ); ?><?php echo $required_html; ?></label>
 			<?php endif; ?>
+
+			<?php do_action( 'affwp_checkout_referrals_after_label' ); ?>
 
 			<?php if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
 
@@ -114,6 +112,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 			<?php endif; ?>
 
 		</p>
+	</fieldset>
 
 	<?php
 	}
@@ -125,7 +124,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 * @return  void
 	 * @since  1.0.1
 	 */
-	public function set_affiliate_id( $affiliate_id ) {
+	public function set_affiliate_id( $affiliate_id, $reference, $context ) {
 
 		$context          = $this->context;
 		$posted_affiliate = $_POST[ $context . '_affiliate'];
