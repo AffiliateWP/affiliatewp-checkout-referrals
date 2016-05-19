@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AffiliateWP - Checkout Referrals\n"
-"POT-Creation-Date: 2016-02-13 20:32+1300\n"
+"POT-Creation-Date: 2016-05-20 09:44+1200\n"
 "PO-Revision-Date: 2015-01-03 19:32+1200\n"
 "Last-Translator: Andrew Munro, Sumobi <andrew@sumobi.com>\n"
 "Language-Team: AffiliateWP <support@affiliatewp.com>\n"
@@ -92,18 +92,18 @@ msgstr ""
 msgid "How the affiliates will be displayed at checkout"
 msgstr ""
 
-#: ../integrations/class-base.php:106
+#: ../integrations/class-base.php:104 ../integrations/class-woocommerce.php:80
 msgid "Select"
 msgstr ""
 
-#: ../integrations/class-base.php:236
+#: ../integrations/class-base.php:235
 msgid "Please enter an affiliate"
 msgstr ""
 
-#: ../integrations/class-base.php:240
+#: ../integrations/class-base.php:239
 msgid "Please select an affiliate"
 msgstr ""
 
-#: ../integrations/class-base.php:251
+#: ../integrations/class-base.php:250
 msgid "Please enter a valid affiliate"
 msgstr ""

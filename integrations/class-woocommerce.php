@@ -77,7 +77,7 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		$required    = affiliate_wp()->settings->get( 'checkout_referrals_require_affiliate' );
 		$required    = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
 
-		$affiliates = array( 0 => 'Select' );
+		$affiliates = array( 0 => __( 'Select', 'affiliatewp-checkout-referrals' ) );
 
 		if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
 
