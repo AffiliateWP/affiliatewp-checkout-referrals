@@ -71,10 +71,10 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		// get affiliate list
 		$affiliate_list = $this->get_affiliates();
 
-		$description = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
-		$display     = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
+		$description  = affwp_cr_checkout_text();
+		$display      = affwp_cr_affiliate_display();
+		$required     = affwp_cr_require_affiliate();
 
-		$required    = affiliate_wp()->settings->get( 'checkout_referrals_require_affiliate' );
 		$required    = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
 
 		$affiliates = array( 0 => 'Select' );
