@@ -136,16 +136,15 @@ class Affiliate_WP_Checkout_Referrals_Base {
 
 			if ( isset( $posted_affiliate ) && $posted_affiliate ) {
 
-				if ( absint( $posted_affiliate ) ) {
+				if ( is_numeric( $posted_affiliate ) ) {
 
-					// affiliate ID
-					$affiliate_id = absint( $posted_affiliate );
+					$affiliate_id = $posted_affiliate;
 
-				} elseif ( ! is_numeric( $affiliate_id ) ) {
+				} elseif ( is_string( $posted_affiliate ) ) {
 
 					// get affiliate ID from username
 					$user = get_user_by( 'login', sanitize_text_field( urldecode( $posted_affiliate ) ) );
-
+					
 					if ( $user ) {
 						$affiliate_id = affwp_get_affiliate_id( $user->ID );
 					}
@@ -158,12 +157,13 @@ class Affiliate_WP_Checkout_Referrals_Base {
 
 			// select menu
 			if ( isset( $posted_affiliate ) && $posted_affiliate ) {
-				$affiliate_id = absint( $posted_affiliate );
+				$affiliate_id = $posted_affiliate;
 			}
 
 		}
 
-		return $affiliate_id;
+		// Return the affiliate ID.
+		return absint( $affiliate_id );
 	}
 
 	/**
