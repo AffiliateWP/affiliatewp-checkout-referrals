@@ -2,8 +2,8 @@
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, referrals, easy digital downloads, digital downloads, woocommerce, woo
 Requires at least: 3.9
-Tested up to: 4.4.2
-Stable tag: 1.0.3
+Tested up to: 4.7.4
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ Allow customers to select who should receive a commission at checkout
 
 == Description ==
 
-> This plugin requires [AffiliateWP](http://affiliatewp.com/ "AffiliateWP") in order to function.
+> This plugin requires [AffiliateWP](https://affiliatewp.com/ "AffiliateWP") in order to function.
 
 AffiliateWP Checkout Referrals allows a customer to award commission to an affiliate at checkout. This can be done via a select menu or input field. If an affiliate is already being tracked by the customer the affiliate select menu or input field is not shown at checkout.
 
@@ -30,7 +30,7 @@ AffiliateWP Checkout Referrals allows a customer to award commission to an affil
 
 **What is AffiliateWP?**
 
-[AffiliateWP](http://affiliatewp.com/ "AffiliateWP") provides a complete affiliate management system for your WordPress website that seamlessly integrates with all major WordPress e-commerce and membership platforms. It aims to provide everything you need in a simple, clean, easy to use system that you will love to use.
+[AffiliateWP](https://affiliatewp.com/ "AffiliateWP") provides a complete affiliate management system for your WordPress website that seamlessly integrates with all major WordPress e-commerce and membership platforms. It aims to provide everything you need in a simple, clean, easy to use system that you will love to use.
 
 == Installation ==
 
@@ -51,6 +51,9 @@ OR you can just install it with WordPress by going to Plugins &rarr; Add New &ra
 Fix: Tracked affiliate coupons were not working when checkout referrals was active
 
 == Changelog ==
+
+= 1.0.4 =
+* Fix: A scenario where if the AffiliateWP settings were not saved after installing Checkout Referrals, the select menu at checkout wouldn't show affiliates correctly.
 
 = 1.0.3 =
 * New: Affiliate Selection Method. An input field can now be shown instead of a select menu. This allows a customer to enter either an affiliate ID or username.

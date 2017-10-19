@@ -67,10 +67,10 @@ class Affiliate_WP_Checkout_Referrals_Base {
 		// get affiliate list
 		$affiliate_list = $this->get_affiliates();
 
-		$description  = affiliate_wp()->settings->get( 'checkout_referrals_checkout_text' );
-		$display      = affiliate_wp()->settings->get( 'checkout_referrals_affiliate_display' );
+		$description  = affwp_cr_checkout_text();
+		$display      = affwp_cr_affiliate_display();
+		$required     = affwp_cr_require_affiliate();
 
-		$required     = affiliate_wp()->settings->get( 'checkout_referrals_require_affiliate' );
 		$required_html = '';
 
 		if ( $required ) {
