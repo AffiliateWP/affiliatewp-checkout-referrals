@@ -55,6 +55,7 @@ Fix: Tracked affiliate coupons were not working when checkout referrals was acti
 
 = 1.0.5 =
 * New: Restrict Content Pro integration was added
+* Fix: Referrals not being generated in some instances where the username entered started with a number
 
 = 1.0.4 =
 * Fix: A scenario where if the AffiliateWP settings were not saved after installing Checkout Referrals, the select menu at checkout wouldn't show affiliates correctly.
