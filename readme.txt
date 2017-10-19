@@ -2,8 +2,8 @@
 Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, referrals, easy digital downloads, digital downloads, woocommerce, woo
 Requires at least: 3.9
-Tested up to: 4.7.4
-Stable tag: 1.0.4
+Tested up to: 4.8.2
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,7 @@ AffiliateWP Checkout Referrals allows a customer to award commission to an affil
 
 1. Easy Digital Downloads
 2. WooCommerce
+3. Restrict Content Pro
 
 **Features:**
 
@@ -51,6 +52,9 @@ OR you can just install it with WordPress by going to Plugins &rarr; Add New &ra
 Fix: Tracked affiliate coupons were not working when checkout referrals was active
 
 == Changelog ==
+
+= 1.0.5 =
+* New: Restrict Content Pro integration was added
 
 = 1.0.4 =
 * Fix: A scenario where if the AffiliateWP settings were not saved after installing Checkout Referrals, the select menu at checkout wouldn't show affiliates correctly.
