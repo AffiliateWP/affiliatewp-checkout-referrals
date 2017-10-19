@@ -54,7 +54,7 @@ Fix: Tracked affiliate coupons were not working when checkout referrals was acti
 == Changelog ==
 
 = 1.0.5 =
-* New: Restrict Content Pro integration was added
+* New: Restrict Content Pro was added as an integration that Checkout Referrals supports
 * Fix: Referrals not being generated in some instances where the username entered started with a number
 
 = 1.0.4 =
