@@ -18,8 +18,14 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		// make field required
 		add_action( 'woocommerce_checkout_process', array( $this, 'check_affiliate_field' ) );
 
-		// set selected affiliate
-		add_action( 'woocommerce_checkout_order_processed', array( $this, 'set_selected_affiliate' ), 0, 2 );
+		// Set selected affiliate.
+		if ( version_compare( AFFILIATEWP_VERSION, '2.1.8', '>=' ) ) {
+			// AffiliateWP v2.1.8 introduced woocommerce_checkout_update_order_meta which is used to insert a pending referral.
+			add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'set_selected_affiliate' ), 0, 2 );
+		} else {
+			// AffiliateWP v2.1.7 and lower used woocommerce_checkout_order_processed
+			add_action( 'woocommerce_checkout_order_processed', array( $this, 'set_selected_affiliate' ), 0, 2 );
+		}
 
 	}
 
