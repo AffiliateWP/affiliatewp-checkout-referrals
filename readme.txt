@@ -3,7 +3,7 @@ Contributors: sumobi, mordauk
 Tags: AffiliateWP, affiliate, Pippin Williamson, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, referrals, easy digital downloads, digital downloads, woocommerce, woo
 Requires at least: 3.9
 Tested up to: 4.8.2
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ OR you can just install it with WordPress by going to Plugins &rarr; Add New &ra
 Fix: Tracked affiliate coupons were not working when checkout referrals was active
 
 == Changelog ==
+
+= 1.0.6 =
+* Fix: Referrals not being generated in WooCommerce integration.
 
 = 1.0.5 =
 * New: Restrict Content Pro was added as an integration that Checkout Referrals supports
