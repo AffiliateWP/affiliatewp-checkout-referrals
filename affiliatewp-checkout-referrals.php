@@ -5,7 +5,7 @@
  * Description: Allows a customer to award a referral to a specific affiliate at checkout.
  * Author: AffiliateWP
  * Author URI: https://affiliatewp.com
- * Version: 1.0.5
+ * Version: 1.0.6
  * Text Domain: affiliatewp-checkout-referrals
  * Domain Path: languages
  *
@@ -92,7 +92,7 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 
 				self::$plugin_dir = plugin_dir_path( __FILE__ );
 				self::$plugin_url = plugin_dir_url( __FILE__ );
-				self::$version    = '1.0.5';
+				self::$version    = '1.0.6';
 
 				self::$instance->load_textdomain();
 				self::$instance->hooks();
