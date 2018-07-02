@@ -131,12 +131,22 @@ class Affiliate_WP_Checkout_Referrals_Base {
 
 	/**
 	 * Set the affiliate ID
-	 * This overrides a tracked affiliate coupon
+	 * This overrides a tracked affiliate id
 	 *
 	 * @return  void
 	 * @since  1.0.1
 	 */
 	public function set_affiliate_id( $affiliate_id, $reference, $context ) {
+
+		// This allow the tracked affiliate to always take precedence over the affiliate
+		// selected at checkout.
+		$tracked_affiliate_id = affiliate_wp()->tracking->get_affiliate_id();
+
+		if ( $tracked_affiliate_id ) {
+			// Return the tracked affiliate ID.
+			return absint( $tracked_affiliate_id );
+
+		}
 
 		$context          = $this->context;
 		$posted_affiliate = $_POST[ $context . '_affiliate'];
