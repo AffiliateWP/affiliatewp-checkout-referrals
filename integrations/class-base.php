@@ -24,7 +24,19 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 * @since  1.0
 	 */
 	public function already_tracking_referral() {
-		return affiliate_wp()->tracking->was_referred();
+		$tracking_referral = affiliate_wp()->tracking->was_referred();
+
+		/**
+		 * Filters whether the user is tracking a referral link in their cookies.
+		 *
+		 * Notes: This allow AffiliateWP - Checkout Referrals plugin to work alongside
+		 * AffiliateWP - Lifetime Commissions plugin
+		 *
+		 * @since 1.0.7
+		 *
+		 * @param bool $tracking_referral whether the user is already tracking a referral link.
+		 */
+		return apply_filters( 'affwp_checkout_referral_already_tracking_referral', $tracking_referral );
 	}
 
 	/**
