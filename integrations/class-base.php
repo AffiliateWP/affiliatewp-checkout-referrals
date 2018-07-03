@@ -287,7 +287,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 */
 	public function is_user_linked() {
 
-		if ( true === version_compare( AFFILIATEWP_VERSION, '2.2', '>=' ) ) {
+		if ( function_exists( 'affiliate_wp_lifetime_commissions' ) && true === version_compare( AFFILIATEWP_VERSION, '2.2', '>=' ) ) {
 
 			$user_email = is_user_logged_in() ? wp_get_current_user()->user_email : false;
 
