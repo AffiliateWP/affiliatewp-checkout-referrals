@@ -24,19 +24,15 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 * @since  1.0
 	 */
 	public function already_tracking_referral() {
-		$tracking_referral = affiliate_wp()->tracking->was_referred();
 
-		/**
-		 * Filters whether the user is tracking a referral link in their cookies.
-		 *
-		 * Notes: This allow AffiliateWP - Checkout Referrals plugin to work alongside
-		 * AffiliateWP - Lifetime Commissions plugin
-		 *
-		 * @since 1.0.7
-		 *
-		 * @param bool $tracking_referral whether the user is already tracking a referral link.
-		 */
-		return apply_filters( 'affwp_checkout_referral_already_tracking_referral', $tracking_referral );
+		// Check if the logged in user is linked to an affiliate.
+		if ( is_user_logged_in() && $this->is_user_linked() ) {
+			return (bool) true;
+		}
+
+		$tracking_referral = isset( $_COOKIE['affwp_ref'] ) && $this->is_valid_affiliate( $_COOKIE['affwp_ref'] );
+
+		return (bool) $tracking_referral;
 	}
 
 	/**
@@ -67,8 +63,8 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	/**
 	 * Show affiliate select menu or input field
 	 *
-	 * @return  void
 	 * @since  1.0.3
+	 * @return void
 	 */
 	public function show_select_or_input() {
 
@@ -133,8 +129,8 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 * Set the affiliate ID
 	 * This overrides a tracked affiliate id
 	 *
-	 * @return  void
 	 * @since  1.0.1
+	 * @return int
 	 */
 	public function set_affiliate_id( $affiliate_id, $reference, $context ) {
 
@@ -204,6 +200,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 *
 	 * @since 1.0.3
 	 * @param $affiliate $affiliate username or ID of affiliate
+	 * @return boolean true if affiliate is valid, false otherwise
 	 */
 	public function is_valid_affiliate( $affiliate = '' ) {
 
@@ -279,6 +276,41 @@ class Affiliate_WP_Checkout_Referrals_Base {
 		} else {
 			return false;
 		}
+
+	}
+
+	/**
+	 * Check to see if the logged in user is linked to an affiliate.
+	 *
+	 * @since  1.0.7
+	 * @return boolean true if user is linked to an affiliate, false otherwise
+	 */
+	public function is_user_linked() {
+
+		if ( true === version_compare( AFFILIATEWP_VERSION, '2.2', '>=' ) ) {
+
+			$user_email = is_user_logged_in() ? wp_get_current_user()->user_email : false;
+
+			if ( $user_email ) {
+
+				$customer = affiliate_wp()->customers->get_by( 'email', $user_email );
+
+				if ( $customer ) {
+
+					$affiliate_id = affwp_get_customer_meta( $customer->customer_id, 'affiliate_id' );
+
+					if ( $affiliate_id ) {
+
+						return (bool) true;
+
+					}
+				}
+
+			}
+
+		}
+
+		return (bool) false;
 
 	}
 
