@@ -25,6 +25,13 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 */
 	public function already_tracking_referral() {
 
+		$affiliate_id = ! empty( $_GET[ affiliate_wp()->tracking->get_referral_var() ] ) ? $_GET[ affiliate_wp()->tracking->get_referral_var() ] : false;
+
+		// Check if valid affiliate link on initial page load.
+		if ( $affiliate_id && $this->is_valid_affiliate( $affiliate_id ) ) {
+			return (bool) true;
+		}
+
 		// Check if the logged in user is linked to an affiliate.
 		if ( is_user_logged_in() && $this->is_user_linked() ) {
 			return (bool) true;
