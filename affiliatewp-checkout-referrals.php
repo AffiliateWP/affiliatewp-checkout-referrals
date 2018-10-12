@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: AffiliateWP - Checkout Referrals
- * Plugin URI: http://affiliatewp.com/addons/checkout-referrals/
- * Description: Allows a customer to award a referral to a specific affiliate at checkout
- * Author: Pippin Williamson and Andrew Munro
- * Author URI: http://affiliatewp.com
- * Version: 1.0.3
+ * Plugin URI: https://affiliatewp.com/add-ons/official-free/checkout-referrals/
+ * Description: Allows a customer to award a referral to a specific affiliate at checkout.
+ * Author: AffiliateWP
+ * Author URI: https://affiliatewp.com
+ * Version: 1.0.7
  * Text Domain: affiliatewp-checkout-referrals
  * Domain Path: languages
  *
@@ -83,7 +83,7 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 		 *
 		 * @since 1.0
 		 * @static
-		 * @staticvar array $instance
+		 * @static var array $instance
 		 * @return The one true AffiliateWP_Checkout_Referrals
 		 */
 		public static function instance() {
@@ -92,7 +92,7 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 
 				self::$plugin_dir = plugin_dir_path( __FILE__ );
 				self::$plugin_url = plugin_dir_url( __FILE__ );
-				self::$version    = '1.0.3';
+				self::$version    = '1.0.7';
 
 				self::$instance->load_textdomain();
 				self::$instance->hooks();
@@ -177,6 +177,7 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 			}
 
 			require_once self::$plugin_dir . 'integrations/class-base.php';
+			require_once self::$plugin_dir . 'includes/functions.php';
 
 			// Load the class for each integration enabled
 			foreach ( affiliate_wp()->integrations->get_enabled_integrations() as $filename => $integration ) {
@@ -188,7 +189,6 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 			}
 
 		}
-
 
 		/**
 		 * Loads the plugin language files

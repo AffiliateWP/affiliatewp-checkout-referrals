@@ -6,7 +6,7 @@ class AffiliateWP_Checkout_Referrals_RCP extends Affiliate_WP_Checkout_Referrals
 	 * Get things started
 	 *
 	 * @access  public
-	 * @since   1.1
+	 * @since   1.0.5
 	*/
 	public function init() {
 
@@ -23,7 +23,7 @@ class AffiliateWP_Checkout_Referrals_RCP extends Affiliate_WP_Checkout_Referrals
 	 * Set selected affiliate
 	 *
 	 * @return  void
-	 * @since  1.1
+	 * @since  1.0.5
 	 */
 	public function set_selected_affiliate( $post, $user_id, $price ) {
 
@@ -40,7 +40,7 @@ class AffiliateWP_Checkout_Referrals_RCP extends Affiliate_WP_Checkout_Referrals
 	 * @param  array $valid_data valid data
 	 * @param  array $post posted data
 	 * @return void
-	 * @since  1.1
+	 * @since  1.0.5
 	 */
 	public function check_affiliate_field( $post ) {
 
