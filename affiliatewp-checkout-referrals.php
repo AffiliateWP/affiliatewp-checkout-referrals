@@ -3,8 +3,8 @@
  * Plugin Name: AffiliateWP - Checkout Referrals
  * Plugin URI: https://affiliatewp.com/add-ons/official-free/checkout-referrals/
  * Description: Allows a customer to award a referral to a specific affiliate at checkout.
- * Author: AffiliateWP
- * Author URI: https://affiliatewp.com
+ * Author: Sandhills Development, LLC
+ * Author URI: https://sandhillsdev.com
  * Version: 1.0.7
  * Text Domain: affiliatewp-checkout-referrals
  * Domain Path: languages
