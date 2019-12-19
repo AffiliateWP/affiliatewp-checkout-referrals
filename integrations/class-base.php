@@ -25,7 +25,7 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 */
 	public function already_tracking_referral() {
 
-		$affiliate_id = ! empty( $_GET[ affiliate_wp()->tracking->get_referral_var() ] ) ? $_GET[ affiliate_wp()->tracking->get_referral_var() ] : false;
+		$affiliate_id = affiliate_wp()->tracking->get_fallback_affiliate_id();
 
 		// Check if valid affiliate link on initial page load.
 		if ( $affiliate_id && $this->is_valid_affiliate( $affiliate_id ) ) {
@@ -43,18 +43,32 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	}
 
 	/**
-	 * Get an array of affiliates
-	 * @return array Affiliate IDs and their corresponding User IDs.
+	 * Retrieves the array of affiliates.
+	 *
+	 * @since 1.0
+	 *
+	 * @return array Affiliate IDs and their corresponding user IDs.
 	 */
 	public function get_affiliates() {
 
-		// get all active affiliates
-		$affiliates = affiliate_wp()->affiliates->get_affiliates(
-			array(
-				'status' => 'active',
-				'number' => -1
-			)
+		$args = array(
+			'status' => 'active',
+			'number' => -1
 		);
+
+		/**
+		 * Filters the arguments used to retrieve affiliates for assigning an affiliate at checkout.
+		 *
+		 * @since 1.0.8
+		 *
+		 * @param array  $args    Arguments passed to Affiliate_WP_DB_Affiliates::get_affiliates(). Defaults to
+		 *                        retrieving all active affiliates.
+		 * @param string $context Slug for the integration being used, such as 'woocommerce', 'edd', or 'rcp'.
+		 */
+		$args = apply_filters( 'affwp_checkout_referrals_get_affiliates_args', $args, $this->context );
+
+		// Get all active affiliates
+		$affiliates = affiliate_wp()->affiliates->get_affiliates( $args );
 
 		$affiliate_list = array();
 

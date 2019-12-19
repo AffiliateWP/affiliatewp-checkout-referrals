@@ -5,9 +5,8 @@
  * Description: Allows a customer to award a referral to a specific affiliate at checkout.
  * Author: Sandhills Development, LLC
  * Author URI: https://sandhillsdev.com
- * Version: 1.0.7
+ * Version: 1.0.8
  * Text Domain: affiliatewp-checkout-referrals
- * Domain Path: languages
  *
  * AffiliateWP is distributed under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
@@ -24,7 +23,7 @@
  * @package Checkout Referrals
  * @category Core
  * @author Andrew Munro
- * @version 1.0
+ * @version 1.0.8
  */
 
 
@@ -92,9 +91,8 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 
 				self::$plugin_dir = plugin_dir_path( __FILE__ );
 				self::$plugin_url = plugin_dir_url( __FILE__ );
-				self::$version    = '1.0.7';
+				self::$version    = '1.0.8';
 
-				self::$instance->load_textdomain();
 				self::$instance->hooks();
 				self::$instance->includes();
 
@@ -189,41 +187,6 @@ if ( ! class_exists( 'AffiliateWP_Checkout_Referrals' ) ) {
 			}
 
 		}
-
-		/**
-		 * Loads the plugin language files
-		 *
-		 * @access public
-		 * @since 1.0
-		 * @return void
-		 */
-		public function load_textdomain() {
-
-			// Set filter for plugin's languages directory
-			$lang_dir = dirname( plugin_basename( plugin_dir_path( __FILE__ ) ) ) . '/languages/';
-			$lang_dir = apply_filters( 'affwp_checkout_referrals_languages_directory', $lang_dir );
-
-			// Traditional WordPress plugin locale filter
-			$locale        = apply_filters( 'plugin_locale',  get_locale(), 'affiliatewp-checkout-referrals' );
-			$mofile        = sprintf( '%1$s-%2$s.mo', 'affiliatewp-checkout-referrals', $locale );
-
-			// Setup paths to current locale file
-			$mofile_local  = $lang_dir . $mofile;
-			$mofile_global = WP_LANG_DIR . '/affiliatewp-checkout-referrals/' . $mofile;
-
-			if ( file_exists( $mofile_global ) ) {
-				// Look in global /wp-content/languages/affiliatewp-checkout-referrals folder
-				load_textdomain( 'affiliatewp-checkout-referrals', $mofile_global );
-			} elseif ( file_exists( $mofile_local ) ) {
-				// Look in local /wp-content/plugins/affiliatewp-checkout-referrals/languages/ folder
-				load_textdomain( 'affiliatewp-checkout-referrals', $mofile_local );
-			} else {
-				// Load the default language files
-				load_plugin_textdomain( 'affiliatewp-checkout-referrals', false, $lang_dir );
-			}
-
-		}
-
 
 		/**
 		 * Modify plugin metalinks
