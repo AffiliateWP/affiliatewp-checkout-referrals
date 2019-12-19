@@ -54,6 +54,11 @@ Fix: Tracked affiliate coupons were not working when checkout referrals was acti
 
 == Changelog ==
 
+= 1.0.8 =
+* Tweak: Make it possible to only allow specific affiliates to be selected at checkout with the `affwp_checkout_referrals_get_affiliates_args` filter
+* Tweak: Allow language translations to be handled by WordPress.org
+* Fix: RCP: Register form shows the affiliate drop-down even when visiting on an affiliate link
+
 = 1.0.7 =
 * New: Checkout Referrals is now compatible with the Lifetime Commissions add-on
 * Tweak: Hide affiliate select/input on first page load if affiliate link is used
