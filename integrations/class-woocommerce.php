@@ -98,11 +98,12 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		if ( $affiliate_list ) {
 
 			// now that we've got a list of affiliate IDs and their User IDs, build out a list
-		 	foreach ( $affiliate_list as $affiliate_id => $user_id ) {
-		 		$user_info = get_userdata( $user_id );
-
-		 		$affiliates[ $affiliate_id ] = $user_info->$display;
-		 	}
+			foreach ( $affiliate_list as $affiliate_id => $user_id ) {
+				$user_info = get_userdata( $user_id );
+				if ( $user_info ) {
+					$affiliates[ $affiliate_id ] = $user_info->$display;
+				}
+			}
 
 		    woocommerce_form_field( 'woocommerce_affiliate',
 		    	array(
