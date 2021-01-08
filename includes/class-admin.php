@@ -55,6 +55,17 @@ class AffiliateWP_Checkout_Referrals_Admin {
 			'std' => 'user_nicename'
 		);
 
+		$fields['checkout_referrals_affiliates_sorting_order'] = array(
+			'name' => __( 'Affiliates Sorting Order', 'affiliatewp-checkout-referrals' ),
+			'desc' => __( 'How the affiliates will be sorted on the checkout dropdown', 'affiliatewp-checkout-referrals' ),
+			'type' => 'radio',
+			'options' => array(
+				'affiliate_id' 	=> 'Affiliate ID',
+				'alphabetical' 	=> 'Alphabetical'
+			),
+			'std' => 'affiliate_id'
+		);
+
 		return $fields;
 	}
 

@@ -38,3 +38,15 @@ function affwp_cr_affiliate_display() {
 function affwp_cr_require_affiliate() {
 	return affiliate_wp()->settings->get( 'checkout_referrals_require_affiliate', false );
 }
+
+/**
+ * Get the affiliates sorting order.
+ * Provides a default for when the settings have not yet been saved.
+ *
+ * @since  1.0.9
+ *
+ * @return string affiliates sorting order setting
+ */
+function affwp_cr_affiliates_sorting_order() {
+	return affiliate_wp()->settings->get( 'checkout_referrals_affiliates_sorting_order', 'affiliate_id' );
+}

@@ -49,12 +49,14 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	 *
 	 * @return array Affiliate IDs and their corresponding user IDs.
 	 */
-	public function get_affiliates() {
+	public function get_affiliates( $args = array() ) {
 
-		$args = array(
+		$defaults = array(
 			'status' => 'active',
 			'number' => -1
 		);
+
+		$args = wp_parse_args( $args, $defaults );
 
 		/**
 		 * Filters the arguments used to retrieve affiliates for assigning an affiliate at checkout.
