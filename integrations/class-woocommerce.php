@@ -80,12 +80,7 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		$sorting			= affwp_cr_affiliates_sorting_order();
 
 		// get affiliate list
-		$args = array();
-		if( 'alphabetical' == $sorting ) {
-			$args['order'] = 'ASC';
-			$args['orderby'] = $display;
-		}
-		$affiliate_list = $this->get_affiliates( $args );
+		$affiliate_list = $this->get_affiliates();
 
 		$required    = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
 
@@ -108,7 +103,20 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		 		$user_info = get_userdata( $user_id );
 
 		 		$affiliates[ $affiliate_id ] = $user_info->$display;
-		 	}
+			 }
+			 
+ 			// sort list if alphabetical
+			if( 'alphabetical' === $sorting ) {
+				uksort( $affiliates, function( $id1, $id2 ) use ( $affiliates ) {
+					if( 0 === $id1 ) {  // leave item "Select" at the top
+						return -1;
+					}
+					$affiliate1 = strtolower( $affiliates[$id1] );
+					$affiliate2 = strtolower( $affiliates[$id2] );
+					return strcmp( $affiliate1, $affiliate2 );
+				} );
+			}
+
 
 		    woocommerce_form_field( 'woocommerce_affiliate',
 		    	array(
