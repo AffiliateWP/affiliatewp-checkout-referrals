@@ -48,9 +48,9 @@ class AffiliateWP_Checkout_Referrals_Admin {
 			'desc' => __( 'How the affiliates will be displayed at checkout', 'affiliatewp-checkout-referrals' ),
 			'type' => 'radio',
 			'options' => array(
-				'user_nicename' => 'User Nicename',
-				'display_name' => 'Display Name',
-				'nickname'     => 'Nickname'
+				'user_nicename' => __( 'User Nicename', 'affiliatewp-checkout-referrals' ),
+				'display_name' => __( 'Display Name', 'affiliatewp-checkout-referrals' ),
+				'nickname'     => __( 'Nickname', 'affiliatewp-checkout-referrals' )
 			),
 			'std' => 'user_nicename'
 		);
@@ -60,8 +60,8 @@ class AffiliateWP_Checkout_Referrals_Admin {
 			'desc' => __( 'How the affiliates will be sorted on the checkout dropdown', 'affiliatewp-checkout-referrals' ),
 			'type' => 'radio',
 			'options' => array(
-				'affiliate_id' 	=> 'Affiliate ID',
-				'alphabetical' 	=> 'Alphabetical'
+				'affiliate_id' 	=> __( 'Affiliate ID', 'affiliatewp-checkout-referrals' ),
+				'alphabetical' 	=> __( 'Alphabetical', 'affiliatewp-checkout-referrals' )
 			),
 			'std' => 'affiliate_id'
 		);

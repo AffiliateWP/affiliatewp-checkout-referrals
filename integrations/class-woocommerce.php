@@ -77,7 +77,7 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		$description  = affwp_cr_checkout_text();
 		$display      = affwp_cr_affiliate_display();
 		$required     = affwp_cr_require_affiliate();
-		$sorting			= affwp_cr_affiliates_sorting_order();
+		$sorting      = affwp_cr_affiliates_sorting_order();
 
 		// get affiliate list
 		$affiliate_list = $this->get_affiliates();
