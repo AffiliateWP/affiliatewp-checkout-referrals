@@ -82,6 +82,42 @@ class Affiliate_WP_Checkout_Referrals_Base {
 	}
 
 	/**
+	 * Retrieves the list of affiliates to feed the select.
+	 *
+	 * @since 1.0.9
+	 * 
+	 * @param array  $affiliates Array of affiliates IDs and their corresponding display.
+	 *
+	 * @return array Affiliate IDs and their corresponding display sorted.
+	 */
+	public function get_affiliates_select_list( $affiliate_list ) {
+		$affiliates = array( 0 => __( 'Select', 'affiliatewp-checkout-referrals' ) );
+
+		// build out a list by display
+		$display = affwp_cr_affiliate_display();
+		foreach ( $affiliate_list as $affiliate_id => $user_id ) {
+			$user_info = get_userdata( $user_id );
+
+			$affiliates[ $affiliate_id ] = $user_info->$display;
+		}
+
+		// sort list if alphabetical
+		$sorting = affwp_cr_affiliates_sorting_order();
+		if( 'alphabetical' === $sorting ) {
+			uksort( $affiliates, function( $id1, $id2 ) use ( $affiliates ) {
+				if( 0 === $id1 ) {  // leave item "Select" at the top
+					return -1;
+				}
+				$affiliate1 = strtolower( $affiliates[$id1] );
+				$affiliate2 = strtolower( $affiliates[$id2] );
+				return strcmp( $affiliate1, $affiliate2 );
+			} );
+		}
+
+		return $affiliates;
+	}
+
+	/**
 	 * Show affiliate select menu or input field
 	 *
 	 * @since  1.0.3
@@ -97,7 +133,6 @@ class Affiliate_WP_Checkout_Referrals_Base {
 		$affiliate_list = $this->get_affiliates();
 
 		$description  = affwp_cr_checkout_text();
-		$display      = affwp_cr_affiliate_display();
 		$required     = affwp_cr_require_affiliate();
 
 		$required_html = '';
@@ -128,13 +163,11 @@ class Affiliate_WP_Checkout_Referrals_Base {
 
 			<?php else : // select menu ?>
 
-				<select id="<?php echo $this->context;?>-affiliate" name="<?php echo $this->context;?>_affiliate" class="<?php echo $this->context;?>-select">
+				<?php $affiliates = $this->get_affiliates_select_list( $affiliate_list ); ?>
 
-				<option value="0"><?php _e( 'Select', 'affiliatewp-checkout-referrals' ); ?></option>
-				<?php foreach ( $affiliate_list as $affiliate_id => $user_id ) :
-					$user_info = get_userdata( $user_id );
-				?>
-					<option value="<?php echo $affiliate_id; ?>"><?php echo $user_info->$display; ?></option>
+				<select id="<?php echo $this->context;?>-affiliate" name="<?php echo $this->context;?>_affiliate" class="<?php echo $this->context;?>-select">
+				<?php foreach ( $affiliates as $affiliate_id => $affiliate_display ) : ?>
+					<option value="<?php echo $affiliate_id; ?>"><?php echo $affiliate_display; ?></option>
 				<?php endforeach; ?>
 				</select>
 

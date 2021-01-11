@@ -75,16 +75,12 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		}
 
 		$description  = affwp_cr_checkout_text();
-		$display      = affwp_cr_affiliate_display();
 		$required     = affwp_cr_require_affiliate();
-		$sorting      = affwp_cr_affiliates_sorting_order();
 
 		// get affiliate list
 		$affiliate_list = $this->get_affiliates();
 
 		$required    = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
-
-		$affiliates = array( 0 => __( 'Select', 'affiliatewp-checkout-referrals' ) );
 
 		if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
 
@@ -98,34 +94,16 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 
 		if ( $affiliate_list ) {
 
-			// now that we've got a list of affiliate IDs and their User IDs, build out a list
-		 	foreach ( $affiliate_list as $affiliate_id => $user_id ) {
-		 		$user_info = get_userdata( $user_id );
+			$affiliates = $this->get_affiliates_select_list( $affiliate_list );
 
-		 		$affiliates[ $affiliate_id ] = $user_info->$display;
-			 }
-			 
- 			// sort list if alphabetical
-			if( 'alphabetical' === $sorting ) {
-				uksort( $affiliates, function( $id1, $id2 ) use ( $affiliates ) {
-					if( 0 === $id1 ) {  // leave item "Select" at the top
-						return -1;
-					}
-					$affiliate1 = strtolower( $affiliates[$id1] );
-					$affiliate2 = strtolower( $affiliates[$id2] );
-					return strcmp( $affiliate1, $affiliate2 );
-				} );
-			}
-
-
-		    woocommerce_form_field( 'woocommerce_affiliate',
-		    	array(
-			        'type'    => 'select',
-			        'class'   => array( 'form-row-wide' ),
-			        'label'   => $description . $required,
-			        'options' => $affiliates
-			    ),
-			    $checkout->get_value( 'woocommerce_affiliate' )
+			woocommerce_form_field( 'woocommerce_affiliate',
+				array(
+						'type'    => 'select',
+						'class'   => array( 'form-row-wide' ),
+						'label'   => $description . $required,
+						'options' => $affiliates
+				),
+				$checkout->get_value( 'woocommerce_affiliate' )
 			);
 
 		}
