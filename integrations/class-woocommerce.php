@@ -81,14 +81,12 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 		$display      = affwp_cr_affiliate_display();
 		$required     = affwp_cr_require_affiliate();
 
-		$required    = $required ? ' <abbr title="required" class="required">*</abbr>' : '';
-
 		$affiliates = array( 0 => __( 'Select', 'affiliatewp-checkout-referrals' ) );
 
 		if ( 'input' === $this->get_affiliate_selection() ) : // input menu ?>
 
 			<?php if ( $description ) : ?>
-			<label for="woocommerce-affiliate"><?php echo esc_attr( $description ) . $required; ?></label>
+			<label for="woocommerce-affiliate"><?php echo esc_attr( $description ); ?></label>
 			<?php endif; ?>
 
 			<input type="text" id="woocommerce-affiliate" name="woocommerce_affiliate" />
@@ -106,10 +104,11 @@ class AffiliateWP_Checkout_Referrals_WooCommerce extends Affiliate_WP_Checkout_R
 
 		    woocommerce_form_field( 'woocommerce_affiliate',
 		    	array(
-			        'type'    => 'select',
-			        'class'   => array( 'form-row-wide' ),
-			        'label'   => $description . $required,
-			        'options' => $affiliates
+			        'type'     => 'select',
+			        'class'    => array( 'form-row-wide' ),
+			        'label'    => $description,
+			        'options'  => $affiliates,
+			        'required' => $required,
 			    ),
 			    $checkout->get_value( 'woocommerce_affiliate' )
 			);
